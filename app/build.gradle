@@ -1,0 +1,118 @@
+apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "com.application.bris.ikurma"
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 30
+        versionName "2.2.1"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        buildConfigField("Boolean", "IS_PRODUCTION", "false")
+        buildConfigField ("Boolean","IS_BD", "true")
+        buildConfigField ("String","SECRET_KEY", "\"12131415\"")
+        buildConfigField ("String","DEVELOPER_KEY", "\"idong123\"")
+        buildConfigField ("String","MAGIC_CRYPT_KEY", "\".:Pd4MAp1S3c12EtK3y:.\"")
+        buildConfigField "String[]", "GEOCODING_KEY",
+                "{" +
+                        "\"cbeb69547c7e4d8dadef1953ebea67c7\"," +
+                        "\"6bb3681bcb814438afff710d1b75c558\"," +
+                        "\"5a46881fa63a46fa8f557a1e729a795b\"," +
+                        "\"6bb3681bcb814438afff710d1b75c558\"," +
+                        "\"e9100593ceb04eba842fb76c436beb50\"" +
+
+
+                        "}"
+
+    }
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dexOptions {
+        jumboMode true
+        javaMaxHeapSize "4g"
+    }
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
+}
+
+ext {
+    supportLibraryVersion = "1.0.0"
+    playServicesMapsVersion = "16.1.0"
+    playServicesLocationVersion = "16.0.0"
+    fragment_version="1.1.0"
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$supportLibraryVersion"
+    implementation "com.google.android.material:material:$supportLibraryVersion"
+    implementation "androidx.recyclerview:recyclerview:$supportLibraryVersion"
+    implementation "androidx.cardview:cardview:$supportLibraryVersion"
+    implementation "androidx.legacy:legacy-support-v4:$supportLibraryVersion"
+    implementation "androidx.fragment:fragment:$fragment_version"
+    implementation "androidx.vectordrawable:vectordrawable:$supportLibraryVersion"
+//    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.android.support:multidex:1.0.3'
+
+    //firebase
+    implementation 'com.google.firebase:firebase-messaging:20.3.0'
+
+
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    implementation 'com.github.takusemba:multisnaprecyclerview:2.0.1'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.github.HITGIF:TextFieldBoxes:1.4.4'
+    implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
+    implementation 'com.github.vipulasri:timelineview:1.1.0'
+    implementation('com.squareup.retrofit2:retrofit:2.6.0'){
+        exclude module: 'okhttp'
+    }
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    implementation 'com.facebook.shimmer:shimmer:0.4.0'
+    implementation (name:'material-stepper-custom-4.3.1', ext:'aar')
+
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation("com.github.bumptech.glide:okhttp3-integration:4.2.0") {
+        exclude group: 'glide-parent'
+    }
+
+    implementation "com.google.android.gms:play-services-maps:$playServicesMapsVersion"
+    implementation "com.google.android.gms:play-services-places:$playServicesLocationVersion"
+    implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+
+    //pdf upload
+    implementation 'com.karumi:dexter:5.0.0'
+
+    //autofittextview
+    implementation 'me.grantland:autofittextview:0.2.1'
+
+    //flip view
+    implementation 'com.wajahatkarim3.EasyFlipView:EasyFlipView:2.1.2'
+
+    //dialog box
+//    implementation 'com.github.f0ris.sweetalert:library:1.5.1'
+//    implementation 'cn.pedant.sweetalert:library:1.5.1'
+    implementation 'com.github.f0ris.sweetalert:library:1.5.1'
+
+}
