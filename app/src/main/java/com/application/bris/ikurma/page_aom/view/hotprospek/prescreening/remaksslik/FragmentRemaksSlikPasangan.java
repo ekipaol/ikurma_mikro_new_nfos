@@ -20,6 +20,7 @@ import com.application.bris.ikurma.util.Stringinfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +61,14 @@ public class FragmentRemaksSlikPasangan extends Fragment implements SlikListener
         //DATA HISTORY COVENANCE
         Gson gson = new Gson();
         Type type = new TypeToken<List<ModelRemaksSlik>>() {}.getType();
-        data = gson.fromJson(dataSlikPasangan, type);
+
+        if(dataSlikPasangan!=null&&!dataSlikPasangan.isEmpty()){
+            data = gson.fromJson(dataSlikPasangan, type);
+        }
+        else{
+            data=new ArrayList<>();
+        }
+//        data = gson.fromJson(dataSlikPasangan, type);
         adp = new RemaksSlikAdapater(getContext(), data, this);
         rv_remakssliknasabah.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_remakssliknasabah.setItemAnimator(new DefaultItemAnimator());

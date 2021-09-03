@@ -2,7 +2,6 @@ package com.application.bris.ikurma.api.service;
 
 import com.application.bris.ikurma.api.config.UriApi;
 import com.application.bris.ikurma.api.model.ParseResponse;
-import com.application.bris.ikurma.api.model.ParseResponseAgunan;
 import com.application.bris.ikurma.api.model.ParseResponseArr;
 import com.application.bris.ikurma.api.model.ParseResponseArrAgunan;
 import com.application.bris.ikurma.api.model.ParseResponseArrAgunanByCif;
@@ -19,7 +18,6 @@ import com.application.bris.ikurma.api.model.request.agunan.ReqDeleteAgunan;
 import com.application.bris.ikurma.api.model.request.agunan.ReqIkatAgunan;
 import com.application.bris.ikurma.api.model.request.agunan.ReqInfoAgunan;
 import com.application.bris.ikurma.api.model.request.agunan.ReqSaveAgunan;
-import com.application.bris.ikurma.api.model.request.agunan.ReqSaveAgunanKendaraan;
 import com.application.bris.ikurma.api.model.request.agunan.ReqSaveAgunanTanahKosong;
 import com.application.bris.ikurma.api.model.request.agunan.ReqSetPengikatan;
 import com.application.bris.ikurma.api.model.request.ceknasabah.cekNasabah;
@@ -38,6 +36,7 @@ import com.application.bris.ikurma.api.model.request.general.searchSektorEkonomi
 import com.application.bris.ikurma.api.model.request.hotprospek.KomponenPrescreening;
 import com.application.bris.ikurma.api.model.request.hotprospek.Prescreening;
 import com.application.bris.ikurma.api.model.request.hotprospek.PrescreeningSikp;
+import com.application.bris.ikurma.api.model.request.hotprospek.ReqDownloadSlik;
 import com.application.bris.ikurma.api.model.request.hotprospek.cekRekomendasi;
 import com.application.bris.ikurma.api.model.request.hotprospek.inputAgunanDeposito;
 import com.application.bris.ikurma.api.model.request.hotprospek.inputAgunanKios;
@@ -100,7 +99,7 @@ import retrofit2.http.Query;
  */
 
 public interface ApiInterface {
-    @POST(UriApi.general.login)
+    @POST(UriApi.generalNos.login)
     Call<ParseResponse> login (@Body login login);
 
     @POST(UriApi.generalNos.login2)
@@ -168,7 +167,7 @@ public interface ApiInterface {
     @POST(UriApi.pipelineNos.pipelineToHotprospek)
     Call<ParseResponse> pipelineToHotprospek (@Body processRejectPipeline processRejectPipeline);
 
-    @POST(UriApi.pipeline.rejectPipeline)
+    @POST(UriApi.pipelineNos.rejectPipeline)
     Call<ParseResponse> rejectPipeline (@Body processRejectPipeline processRejectPipeline);
 
     @POST(UriApi.pipelineNos.savePipelineHotprospek)
@@ -283,18 +282,21 @@ public interface ApiInterface {
     @POST(UriApi.hotprospekNos.sendPrescreening)
     Call<ParseResponse> sendPrescreening (@Body Prescreening prescreening);
     @POST(UriApi.hotprospekNos.downloadSlik)
-    Call<ParseResponse> downloadSlik (@Body Prescreening prescreening);
+    Call<ParseResponse> downloadSlik (@Body ReqDownloadSlik ReqDownloadSlik);
     @POST(UriApi.hotprospekNos.downloadSlikPasangan)
-    Call<ParseResponse> downloadSlikPasangan (@Body Prescreening prescreening);
+    Call<ParseResponse> downloadSlikPasangan (@Body ReqDownloadSlik ReqDownloadSlik);
     @POST(UriApi.hotprospekNos.inquiryRemaksSlik)
     Call<ParseResponse> inquiryRemaksSlik (@Body Prescreening prescreening);
     @POST(UriApi.hotprospekNos.sendRemaksSlik)
     Call<ParseResponse> sendRemaksSlik (@Body inputRemaksSlik inputRemaksSlik);
 
 
+    @POST(UriApi.hotprospekNos.hitungScoring)
+    Call<ParseResponse> hitungScoring(@Body inquiryScoring inquiryScoring);
     @POST(UriApi.hotprospekNos.inquiryScoring)
     Call<ParseResponse> inquiryScoring (@Body inquiryScoring inquiryScoring);
-    @POST(UriApi.hotprospekNos.sendScoring)
+
+    @POST(UriApi.hotprospekNos.inquiryScoring)
     Call<ParseResponse> sendScoring (@Body inputScoring inputScoring);
 
     @POST(UriApi.hotprospekNos.sendPutusanMikro)

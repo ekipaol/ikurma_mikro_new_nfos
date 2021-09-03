@@ -23,6 +23,9 @@ public class ListDeviasi {
         this.kodeRsc = kodeRsc;
     }
 
+    public ListDeviasi() {
+    }
+
     public void setUid(Integer uid) {
         this.uid = uid;
     }

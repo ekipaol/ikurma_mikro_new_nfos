@@ -41,6 +41,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.scottyab.rootbeer.RootBeer;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -113,10 +114,25 @@ public class SplashScreen extends AppCompatActivity implements ConfirmListener{
         }
         tv_version.setText("Version "+packageInfo.versionName);
 
+
+
         if(checkPermission()) {
-            Toast.makeText(this, "Check version off", Toast.LENGTH_SHORT).show();
-            gotoNextActivity();
+            if(deviceIsRooted()){
+                dialogRoot();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 5000);
+            }
+
+            else{
+                Toast.makeText(this, "Check version off", Toast.LENGTH_SHORT).show();
+                gotoNextActivity();
 //            checkAvailableUpdate();
+            }
+
         }
 
 
@@ -494,5 +510,27 @@ public class SplashScreen extends AppCompatActivity implements ConfirmListener{
         }
 
 
+    }
+
+    private boolean deviceIsRooted(){
+        RootBeer rootBeer = new RootBeer(SplashScreen.this);
+        if (rootBeer.isRooted()) {
+            return true;
+        } else {
+            return false;
+
+        }
+    }
+
+    private void dialogRoot(){
+        final androidx.appcompat.app.AlertDialog.Builder dialog = new androidx.appcompat.app.AlertDialog.Builder(this);
+        dialog.setMessage("Aplikasi tidak boleh dijalankan di aplikasi yang di root")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        finish();
+                    }
+                });
+        dialog.show();
     }
 }

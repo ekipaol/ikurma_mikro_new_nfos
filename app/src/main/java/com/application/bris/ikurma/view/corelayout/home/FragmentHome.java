@@ -201,36 +201,36 @@ public class FragmentHome extends Fragment implements View.OnClickListener, Swip
 
     private void loadProfil() {
 
-        if (appPreferences.getImageProfilBase64().equalsIgnoreCase("")){
-            String urlPhoto = UriApi.Baseurl.URL+UriApi.foto.urlPhotoProfil+appPreferences.getNik();
-            Glide
-                    .with(getContext())
-                    .asBitmap()
-                    .load(urlPhoto)
-                    .centerCrop()
-                    .placeholder(R.drawable.banner_placeholder)
-                    .into(new CustomTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                            iv_profilpicture.setImageBitmap(resource);
-                            appPreferences.setImageProfilBase64(AppUtil.encodeImageTobase64(resource));
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                        }
-                    });
-        }
-        else{
-            Glide
-                    .with(getContext())
-                    .asBitmap()
-                    .load(AppUtil.decodeImageTobase64(appPreferences.getImageProfilBase64()))
-                    .centerCrop()
-                    .placeholder(R.drawable.banner_placeholder)
-                    .into(iv_profilpicture);
-        }
+//        if (appPreferences.getImageProfilBase64().equalsIgnoreCase("")){
+//            String urlPhoto = UriApi.Baseurl.URL+UriApi.foto.urlPhotoProfil+appPreferences.getNik();
+//            Glide
+//                    .with(getContext())
+//                    .asBitmap()
+//                    .load(urlPhoto)
+//                    .centerCrop()
+//                    .placeholder(R.drawable.banner_placeholder)
+//                    .into(new CustomTarget<Bitmap>() {
+//                        @Override
+//                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                            iv_profilpicture.setImageBitmap(resource);
+//                            appPreferences.setImageProfilBase64(AppUtil.encodeImageTobase64(resource));
+//                        }
+//
+//                        @Override
+//                        public void onLoadCleared(@Nullable Drawable placeholder) {
+//
+//                        }
+//                    });
+//        }
+//        else{
+//            Glide
+//                    .with(getContext())
+//                    .asBitmap()
+//                    .load(AppUtil.decodeImageTobase64(appPreferences.getImageProfilBase64()))
+//                    .centerCrop()
+//                    .placeholder(R.drawable.banner_placeholder)
+//                    .into(iv_profilpicture);
+//        }
 
         tv_nama.setText(appPreferences.getNama());
         tv_username.setText(appPreferences.getJabatan()+", "+appPreferences.getNamaKantor());
@@ -257,7 +257,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener, Swip
                                 Gson gson = new Gson();
                                 Type typePipeline = new TypeToken<List<pipeline>>() {}.getType();
                                 try{
-                                    dataPipeline = gson.fromJson(response.body().getData().get("listPipeline").toString(), typePipeline);
+                                    dataPipeline = gson.fromJson(response.body().getData().get("ListPipeline").toString(), typePipeline);
                                 }
                                 catch (NullPointerException e){
                                     AppUtil.logSecure("pipeline","pipeline is null");

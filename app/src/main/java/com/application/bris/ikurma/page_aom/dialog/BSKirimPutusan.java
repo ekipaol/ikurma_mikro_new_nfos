@@ -301,7 +301,9 @@ public class BSKirimPutusan extends BottomSheetDialogFragment implements View.On
 
     private void loadDeviasi() {
         loading.setVisibility(View.VISIBLE);
-        ListDeviasi req = new ListDeviasi(appPreferences.getUid(), appPreferences.getKodeKanwil(), appPreferences.getKodeCabang(), appPreferences.getKodeKantor());
+        ListDeviasi req = new ListDeviasi();
+        req.setUid(appPreferences.getUid());
+
         Call<ParseResponse> call = apiClientAdapter.getApiInterface().listDeviasi(req);
         call.enqueue(new Callback<ParseResponse>() {
             @Override

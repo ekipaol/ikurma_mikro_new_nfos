@@ -738,11 +738,11 @@ public class FragmentDataPribadiPurna extends Fragment implements Step, KeyValue
         }
 
         //cek kalau belum klik tombol, setelah merubah nik pasangan
-        else if(nikPasanganBerubah){
-            et_nikpasangan.requestFocus();
-            return new VerificationError("Harap klik tombol cek nik pasangan terlebih dahulu");
-
-        }
+//        else if(nikPasanganBerubah){
+//            et_nikpasangan.requestFocus();
+//            return new VerificationError("Harap klik tombol cek nik pasangan terlebih dahulu");
+//
+//        }
 
 
         //validasi umur nasabah
@@ -1187,7 +1187,7 @@ public class FragmentDataPribadiPurna extends Fragment implements Step, KeyValue
 
                             //save ke realm dan ubah status ketika sukses dapat nik nasabah
 
-                            nikPasanganBerubah=false;
+//                            nikPasanganBerubah=false;
 
                             try {
                                 KmgDataLengkapPojo saveNikPasangan =realm.where(KmgDataLengkapPojo.class).equalTo("noKtpPasangan", et_nikpasangan.getText().toString()).findFirst();

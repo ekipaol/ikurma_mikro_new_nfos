@@ -68,6 +68,8 @@ public class RemaksSlikAdapater extends RecyclerView.Adapter<RemaksSlikAdapater.
         if (datas.getrEMARK() == 1){
            holder.ll_bukti_lunas.setVisibility(View.VISIBLE);
 
+//           holder.tv_bank.setText("INI DI REMARK ID : "+datas.getiD()+", id photot : "+datas.getfIDPHOTO()+", position : "+String.valueOf(position));
+
             GlideUrl glideUrl = new GlideUrl(UriApi.Baseurl.URL+UriApi.foto.urlPhoto+datas.getfIDPHOTO(), new LazyHeaders.Builder()
                     .addHeader("Authorization", "Bearer "+appPreferences.getToken())
                     .build());
@@ -78,6 +80,9 @@ public class RemaksSlikAdapater extends RecyclerView.Adapter<RemaksSlikAdapater.
                     .centerCrop()
                     .placeholder(R.drawable.banner_placeholder)
                     .into(holder.iv_foto);
+        }
+        else{
+            holder.ll_bukti_lunas.setVisibility(View.GONE);
         }
 
         holder.iv_foto.setOnClickListener(new View.OnClickListener() {

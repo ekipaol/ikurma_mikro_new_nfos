@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.application.bris.ikurma.BuildConfig;
 import com.application.bris.ikurma.R;
 import com.application.bris.ikurma.api.config.UriApi;
 import com.application.bris.ikurma.api.model.Error;
@@ -44,6 +45,7 @@ import com.application.bris.ikurma.page_aom.view.hotprospek.lkn.LknActivity;
 import com.application.bris.ikurma.page_aom.view.hotprospek.prescreening.PrescreeningActivity;
 import com.application.bris.ikurma.page_aom.view.hotprospek.rpc.RpcActivity;
 import com.application.bris.ikurma.page_aom.view.hotprospek.scoring.ScoringActivity;
+import com.application.bris.ikurma.page_aom.view.hotprospek.scoring.ScoringActivityNos;
 import com.application.bris.ikurma.page_aom.view.hotprospek.sektorekonomi.SektorEkonomiActivity;
 import com.application.bris.ikurma.util.AppUtil;
 import com.bumptech.glide.Glide;
@@ -175,16 +177,16 @@ public class HotprospekDetailActivity extends AppCompatActivity implements MenuC
                             dataString = response.body().getData().get("aplikasi").toString();
                             data = gson.fromJson(dataString, hotprospek.class);
 
-                            Toast.makeText(HotprospekDetailActivity.this, "Status aplikasi, flag  di pantek 1 semua", Toast.LENGTH_SHORT).show();
-                            data.setId_st_aplikasi(1);
-                            data.setFlag_data_lengkap(1);
-                            data.setFlag_prescreening(1);
-                            data.setFlag_data_pembiayaan(1);
-                            data.setFlag_lkn(1);
-                            data.setFlag_rpc(1);
-                            data.setFlag_agunan(1);
-                            data.setFlag_dokumen(1);
-                            data.setFlag_scoring(1);
+//                            Toast.makeText(HotprospekDetailActivity.this, "Status aplikasi, flag  di pantek 1 semua", Toast.LENGTH_SHORT).show();
+//                            data.setId_st_aplikasi(1);
+//                            data.setFlag_data_lengkap(1);
+//                            data.setFlag_prescreening(1);
+//                            data.setFlag_data_pembiayaan(1);
+//                            data.setFlag_lkn(1);
+//                            data.setFlag_rpc(1);
+//                            data.setFlag_agunan(1);
+//                            data.setFlag_dokumen(1);
+//                            data.setFlag_scoring(1);
 
                             //set loan type ke dalam preference
                             appPreferences.setLoanType(data.getKode_produk());
@@ -314,11 +316,22 @@ public class HotprospekDetailActivity extends AppCompatActivity implements MenuC
                 btn_send.setEnabled(true);
             }
             else{
-                btn_send.setEnabled(false);
+                if(BuildConfig.IS_PRODUCTION==false){
+                    btn_send.setEnabled(true);
+                }
+                else{
+                    btn_send.setEnabled(false);
+                }
+
             }
         }
         else{
-            btn_send.setEnabled(false);
+            if(BuildConfig.IS_PRODUCTION==false){
+                btn_send.setEnabled(true);
+            }
+            else{
+                btn_send.setEnabled(false);
+            }
         }
     }
 
@@ -418,10 +431,9 @@ public class HotprospekDetailActivity extends AppCompatActivity implements MenuC
         }
 
         else if (menu.equalsIgnoreCase(getString(R.string.submenu_hotprospek_scoring))){
-            Intent it = new Intent(this, ScoringActivity.class);
+            Intent it = new Intent(this, ScoringActivityNos.class);
             it.putExtra("idAplikasi", data.getId_aplikasi());
             it.putExtra("cif", data.getFid_cif_las());
-            it.putExtra("kodeProduct", data.getKode_produk());
             startActivity(it);
         }
 

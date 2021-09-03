@@ -103,12 +103,7 @@ public class MenuPilihProdukActivity extends AppCompatActivity {
     }
 
     private void otherViewChanges(){
-        if(appPreferences.getCbAmanah().equalsIgnoreCase("true")){
             cvMenuMultiFaedah.setVisibility(View.GONE);
-        }
-        else{
-            cvMenuMultiFaedah.setVisibility(View.VISIBLE);
-        }
     }
 
 

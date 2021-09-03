@@ -109,12 +109,13 @@ public class DownloadTask{
                 FileOutputStream fos = new FileOutputStream(outputFile);//Get OutputStream for NewFile Location
                 fos.write(data);
                 fos.close();
-                if (unzip(apkStorage.getCanonicalPath()+"/", downloadFileName)){
-                    outputFile.delete();
-                }
+
+//                if (unzip(apkStorage.getCanonicalPath()+"/", downloadFileName)){
+//                    outputFile.delete();
+//                }
 
                 //buka otomatis PDFnya
-                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/HasilSlik")+"/"+downloadFileName.substring(0,downloadFileName.length()-4)+"/"+downloadFileName.substring(14,30)+".pdf");
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/HasilSlik")+"/"+downloadFileName);
 
                 if (file.exists()) {
                     Intent intent ;
@@ -122,7 +123,7 @@ public class DownloadTask{
 
                     //android nougat keatas harus pake fileprovider kalo mau buka buka file
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
+                        Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
                         intent = new Intent(Intent.ACTION_VIEW);
                         intent.setData(uri);
                         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

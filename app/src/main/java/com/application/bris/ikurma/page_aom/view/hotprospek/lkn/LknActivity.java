@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.application.bris.ikurma.BuildConfig;
 import com.application.bris.ikurma.R;
 import com.application.bris.ikurma.api.model.Error;
 import com.application.bris.ikurma.api.model.ParseResponse;
@@ -21,6 +23,7 @@ import com.application.bris.ikurma.database.pojo.LknPojo;
 import com.application.bris.ikurma.page_aom.dialog.CustomDialog;
 import com.application.bris.ikurma.page_aom.listener.ConfirmListener;
 import com.application.bris.ikurma.page_aom.model.DataLkn;
+import com.application.bris.ikurma.page_aom.view.hotprospek.datalengkap.DataLengkapActivity;
 import com.application.bris.ikurma.page_aom.view.hotprospek.datalengkap.OnNavigationBarListener;
 import com.application.bris.ikurma.util.AppUtil;
 import com.google.gson.Gson;
@@ -166,6 +169,7 @@ public class LknActivity extends AppCompatActivity implements StepperLayout.Step
                             Gson gson = new Gson();
                             dataLknString = response.body().getData().toString();
                             data = gson.fromJson(dataLknString, DataLkn.class);
+
                             stepperlayout.setAdapter(new LknStepAdapter(getSupportFragmentManager(), LknActivity.this, data), startingStepPosition );
                             stepperlayout.setListener(LknActivity.this);
                         }
@@ -316,6 +320,51 @@ public class LknActivity extends AppCompatActivity implements StepperLayout.Step
 
     @Override
     public void confirm(boolean val) {
+
+    }
+
+    private void autoInputForTesting(){
+
+
+        //BELOM DIPAKE karena auto inputnya ditaruh di fragmentnya bukan di activitynya
+
+        Toast.makeText(LknActivity.this, "Isi data otomatis untuk testing", Toast.LENGTH_SHORT).show();
+        data.setpERPUTARANPIUTANG(1l);
+        data.setgPM("90.0");
+        data.sethARGASEWA("0");
+        data.setjENISTEMPATUSAHA("Los/Lapak/Dasaran");
+        data.setpENGHASILANLAINNYA("200000");
+        data.setbIAYAPENDIDIKAN("300000");
+        data.setfIDPHOTODALAM(100);
+        data.setpENGELUARANUSAHA("17300000");
+        data.setbIAYATELEPONRT("100000");
+        data.setfIDPHOTODEPAN(100);
+        data.settOTALPENGELUARANRT("3000000");
+        data.settOTALPENGHASILAN("82900000");
+        data.settOTALPEMBIAYAAN("25000000");
+        data.setiNVENTORY("10000000");
+        data.setsTATUSPERMOHONAN("Baru");
+        data.setsTATUSTEMPATUSAHA("Milik Keluarga");
+        data.setpENDAPATANUSAHA("100000000");
+        data.setsISAPENGHASILAN("79800000");
+        data.setjENISANGSURAN("1");
+        data.setjWKONSUMTIF("0");
+        data.setbIAYATRANSPORTASI("200000");
+        data.setjARAKLOKASI(4l);
+        data.setpERPUTARANPERSEDIAAN(30l);
+        data.setpEMBIAYAANKONSUMTIF("0");
+        data.setbIAYATELEPONLISTRIK("100000");
+        data.setkEUNTUNGANUSAHA("82700000");
+        data.setjWPRODUKTIF2("0");
+        data.setjENISUSAHA("Pakaian/Alas Kaki");
+        data.setjWTAKEOVER("0");
+        data.setuTANGDAGANG("2000000");
+        data.setpERPUTARANUTANG(6l);
+        data.setlOKASIUSAHA("Pasar Utama}");
+        data.setdOHINVENTORY(6l);
+        data.setpERPUTARANUTANG(6l);
+
+
 
     }
 }

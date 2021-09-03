@@ -769,11 +769,11 @@ public class KmgFragmentDataPribadi extends Fragment implements Step, KeyValueLi
         }
 
         //cek kalau belum klik tombol, setelah merubah nik pasangan
-        else if (nikPasanganBerubah) {
-            et_nikpasangan.requestFocus();
-            return new VerificationError("Harap klik tombol cek nik pasangan terlebih dahulu");
-
-        }
+//        else if (nikPasanganBerubah) {
+//            et_nikpasangan.requestFocus();
+//            return new VerificationError("Harap klik tombol cek nik pasangan terlebih dahulu");
+//
+//        }
 
 
         //validasi umur nasabah , di comment dlu, karena sudah ada di servicenya

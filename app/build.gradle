@@ -1,29 +1,32 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 apply plugin: 'com.google.gms.google-services'
+apply from: "utils.gradle"
 
 android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.application.bris.ikurma"
-        minSdkVersion 16
+        minSdkVersion 24
         targetSdkVersion 29
-        versionCode 30
-        versionName "2.2.1"
+        versionCode 1
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         buildConfigField("Boolean", "IS_PRODUCTION", "false")
         buildConfigField ("Boolean","IS_BD", "true")
-        buildConfigField ("String","SECRET_KEY", "\"12131415\"")
-        buildConfigField ("String","DEVELOPER_KEY", "\"idong123\"")
-        buildConfigField ("String","MAGIC_CRYPT_KEY", "\".:Pd4MAp1S3c12EtK3y:.\"")
+        buildConfigField ("Boolean","SHOW_LOG", "true")
+        buildConfigField ("String","SECRET_KEY", toJavaCodeString(SECRET_KEY))
+        buildConfigField ("String","DEVELOPER_KEY",toJavaCodeString(DEVELOPER_KEY))
+        buildConfigField ("String","MAGIC_CRYPT_KEY",toJavaCodeString(MAGIC_CRYPT_KEY))
+        buildConfigField ("String","SERVER_CRYPT", toJavaCodeString(SERVER_CRYPT))
         buildConfigField "String[]", "GEOCODING_KEY",
                 "{" +
-                        "\"cbeb69547c7e4d8dadef1953ebea67c7\"," +
-                        "\"6bb3681bcb814438afff710d1b75c558\"," +
-                        "\"5a46881fa63a46fa8f557a1e729a795b\"," +
-                        "\"6bb3681bcb814438afff710d1b75c558\"," +
-                        "\"e9100593ceb04eba842fb76c436beb50\"" +
+                        toJavaCodeString(GEOCODING_KEY_1)+"," +
+                        toJavaCodeString(GEOCODING_KEY_2)+"," +
+                        toJavaCodeString(GEOCODING_KEY_3)+"," +
+                        toJavaCodeString(GEOCODING_KEY_4)+"," +
+                        toJavaCodeString(GEOCODING_KEY_5) +
 
 
                         "}"
@@ -33,6 +36,7 @@ android {
         release {
             shrinkResources true
             minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -114,5 +118,8 @@ dependencies {
 //    implementation 'com.github.f0ris.sweetalert:library:1.5.1'
 //    implementation 'cn.pedant.sweetalert:library:1.5.1'
     implementation 'com.github.f0ris.sweetalert:library:1.5.1'
+
+    //root detection
+    implementation 'com.scottyab:rootbeer-lib:0.1.0'
 
 }

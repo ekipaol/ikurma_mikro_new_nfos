@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.application.bris.ikurma.BuildConfig;
 import com.application.bris.ikurma.R;
 import com.application.bris.ikurma.listener.menu.MenuClickListener;
 import com.application.bris.ikurma.model.menu.ListViewSubmenuHotprospek;
@@ -100,6 +101,9 @@ public class SubmenuHotprospekAdapter extends RecyclerView.Adapter<SubmenuHotpro
         if (data.getId_st_aplikasi() == 1 || data.getId_st_aplikasi() == -14){
             validateClick(holder.rl_menu, holder.iv_complete, holder.iv_iconmenu, position);
         }
+        if (BuildConfig.IS_PRODUCTION==false){
+            validateClick(holder.rl_menu, holder.iv_complete, holder.iv_iconmenu, position);
+        }
         else{
             if (position != 8){
                 holder.rl_menu.setEnabled(false);
@@ -175,6 +179,11 @@ public class SubmenuHotprospekAdapter extends RecyclerView.Adapter<SubmenuHotpro
             rl.setEnabled(true);
             setGreyorRegularIcon(ivMenu, 1);
         }
+
+        //walaupun flag belom aktif, tetep bisa di klik
+      if(BuildConfig.IS_PRODUCTION==false){
+          rl.setEnabled(true);
+      }
     }
 
     public void setGreyorRegularIcon (ImageView iv, int sat){

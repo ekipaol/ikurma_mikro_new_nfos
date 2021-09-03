@@ -102,13 +102,13 @@ public class FragmentUser extends Fragment implements View.OnClickListener{
 
 
     private void setData() {
-        String urlPhoto = UriApi.Baseurl.URL+UriApi.foto.urlPhotoProfil+appPreferences.getNik();
-        Glide
-                .with(getContext())
-                .load(urlPhoto)
-                .centerCrop()
-                .placeholder(R.drawable.banner_placeholder)
-                .into(iv_profile);
+//        String urlPhoto = UriApi.Baseurl.URL+UriApi.foto.urlPhotoProfil+appPreferences.getNik();
+//        Glide
+//                .with(getContext())
+//                .load(urlPhoto)
+//                .centerCrop()
+//                .placeholder(R.drawable.banner_placeholder)
+//                .into(iv_profile);
 
         tv_nama.setText(appPreferences.getNama());
         tv_nik_kodeao.setText(appPreferences.getJabatan()+", "+appPreferences.getNamaKantor());

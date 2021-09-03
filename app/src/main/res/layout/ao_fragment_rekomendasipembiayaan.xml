@@ -548,6 +548,7 @@
                     android:id="@+id/tf_intervaljenisangsuran"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     app:endIcon="@drawable/ic_keyboard_arrow_down_black_24dp"
                     app:iconSignifier="@drawable/ic_rupiah"
                     app:isResponsiveIconColor="true"

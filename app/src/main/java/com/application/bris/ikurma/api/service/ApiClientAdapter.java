@@ -84,20 +84,68 @@ public class ApiClientAdapter {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         Interceptor headerAuth = null;
+        Interceptor headerAuthLogin = null;
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         if (id == 1){
+
             headerAuth = new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
-                    Request request = chain.request().newBuilder()
-                            .addHeader("Authorization", "Bearer "+appPreferences.getToken())
-                            .build();
-                    return chain.proceed(request);
+
+//                    Request request = chain.request();
+//                    RequestBody requestBody = request.body();
+
+                    Request request=chain.request();
+                    RequestBody requestBody = request.body();
+                    if(request.method().equalsIgnoreCase("POST")){
+                        String subtype = requestBody.contentType().subtype();
+
+                        //hanya request json aja yang pakai signature
+                        //request non json sperti upload foto gak perlu signature
+                        if(subtype.contains("json")){
+                            String signature="token=Bearer "+appPreferences.getToken()+"&body="+bodyToString(requestBody);
+                            AppUtil.logSecure("xsign",signature);
+                            request = chain.request().newBuilder()
+                                    .addHeader("Authorization", "Bearer "+appPreferences.getToken())
+                                    .addHeader("X-Signature",AppUtil.hashSha256(signature).toUpperCase())
+                                    .build();
+                            return chain.proceed(request);
+                        }
+                        else{
+                            String signature="token=Bearer "+appPreferences.getToken()+"&body=";
+                            AppUtil.logSecure("xsign",signature);
+
+                            request = chain.request().newBuilder()
+                                    .addHeader("Authorization", "Bearer "+appPreferences.getToken())
+                                    .addHeader("X-Signature",AppUtil.hashSha256(signature).toUpperCase())
+                                    .build();
+                            return chain.proceed(request);
+                        }
+
+                    }
+
+                    //PROTOKOL GET TANPA HASH BODY
+                    else if(request.method().equalsIgnoreCase("GET")){
+                        String signature="token=Bearer "+appPreferences.getToken()+"&body=";
+                        request = chain.request().newBuilder()
+                                .addHeader("Authorization", "Bearer "+appPreferences.getToken())
+                                .addHeader("X-Signature",AppUtil.hashSha256(signature).toUpperCase())
+                                .build();
+                        return chain.proceed(request);
+                    }
+                    else{
+                        //DEFAULTNYA DIBIKIN SEPERTI POST
+                        String signature="token=Bearer "+appPreferences.getToken()+"&body="+bodyToString(requestBody);
+                        request = chain.request().newBuilder()
+                                .addHeader("Authorization", "Bearer "+appPreferences.getToken())
+                                .addHeader("X-Signature",AppUtil.hashSha256(signature).toUpperCase())
+                                .build();
+                        return chain.proceed(request);
+                    }
 
                 }
             };
             clientBuilder.addInterceptor(headerAuth);
-
 
             //menambah interceptor baru jika token expired, alias perlu login ulang, atau untuk error code lain
             clientBuilder .addInterceptor(new Interceptor() {
@@ -142,75 +190,12 @@ public class ApiClientAdapter {
             });
             //END OF INTERCEPTOR AUTO LOGOFF
 
-
-
-            //Interceptor enkripsi
-            clientBuilder .addInterceptor(new Interceptor() {
-                @Override
-                public okhttp3.Response intercept(Chain chain) throws IOException {
-                    Request request = chain.request();
-                    RequestBody requestBody = request.body();
-
-                    DESHelper encryptor =new DESHelper();
-
-                    if(request.method().equalsIgnoreCase("POST")){
-                        String subtype = requestBody.contentType().subtype();
-                        if(subtype.contains("json")){
-
-                            try{
-                                String encryptedRequest=encryptor.encrypt(bodyToString(requestBody));
-                                AppUtil.logSecure("okhttp_decrypter_request",encryptor.decrypt(encryptedRequest));
-
-//                            encryptedRequest=encryptor.decrypt(encryptedRequest);
-//                            Log.wtf("okhttp_decrypter_request",encryptedRequest);
-
-
-                                //jangan lupa kalo bikin request body baru, stringnya diambil dalam bentuk bytes
-                                requestBody =   RequestBody.create(MediaType.parse("application/json"), encryptedRequest.getBytes());
-                            }
-                            catch (Exception e){
-
-                                Log.d("okhttp-error",e.getMessage());
-                            }
-                        }
-
-                    }
-
-                    if(requestBody!=null){
-                        Request.Builder requestBuilder = request.newBuilder();
-
-                        //uncomment jika naik prod
-//                        request = requestBuilder
-//                                .post(requestBody)
-//                                .build();
-
-                        //end of comment
-
-
-                        return chain.proceed(request);
-                    }
-                    else{
-                        return chain.proceed(request);
-                    }
-
-
-
-
-
-//                    okhttp3.Response response = chain.proceed(request);
-//
-//
-//                    return response;
-                }
-            });
-
-            //END OF INTERCEPTOR ENKRIPSI
         }
 
 
         //tanpa token
         else if (id == 99){
-            headerAuth = new Interceptor() {
+            headerAuthLogin = new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request().newBuilder()
@@ -220,127 +205,28 @@ public class ApiClientAdapter {
 
                 }
             };
-            clientBuilder.addInterceptor(headerAuth);
-
-
-            //menambah interceptor baru jika token expired, alias perlu login ulang, atau untuk error code lain
-            clientBuilder .addInterceptor(new Interceptor() {
-                @Override
-                public okhttp3.Response intercept(Chain chain) throws IOException {
-                    Request request = chain.request();
-
-                    okhttp3.Response response = chain.proceed(request);
-
-                    // validasi global untuk response code tertentu
-
-                    if (response.code() == 401) {
-                        //dialog hanya bisa muncul kalo dijalankan di main thread, jadi ditaruh didalam handler
-                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                //current scenario
-                                if(appPreferences.getNama().equalsIgnoreCase("developer")){
-                                    Intent intent=new Intent(context, LoginActivity2.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    intent.putExtra("type", "bdwelcome");
-                                    intent.putExtra("expiredToken",true);
-                                    context.startActivity(intent);
-                                }
-                                else{
-                                    Intent intent=new Intent(context, LoginActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    intent.putExtra("type", "bdlogin");
-                                    intent.putExtra("expiredToken",true);
-                                    context.startActivity(intent);
-                                }
-                            }
-                        });
-
-
-                        return response;
-                    }
-
-                    return response;
-                }
-            });
-            //END OF INTERCEPTOR AUTO LOGOFF
-
-
-
-            //Interceptor enkripsi
-            clientBuilder .addInterceptor(new Interceptor() {
-                @Override
-                public okhttp3.Response intercept(Chain chain) throws IOException {
-                    Request request = chain.request();
-                    RequestBody requestBody = request.body();
-
-                    DESHelper encryptor =new DESHelper();
-
-                    if(request.method().equalsIgnoreCase("POST")){
-                        String subtype = requestBody.contentType().subtype();
-                        if(subtype.contains("json")){
-
-                            try{
-                                String encryptedRequest=encryptor.encrypt(bodyToString(requestBody));
-                                AppUtil.logSecure("okhttp_decrypter_request",encryptor.decrypt(encryptedRequest));
-
-//                            encryptedRequest=encryptor.decrypt(encryptedRequest);
-//                            Log.wtf("okhttp_decrypter_request",encryptedRequest);
-
-
-                                //jangan lupa kalo bikin request body baru, stringnya diambil dalam bentuk bytes
-                                requestBody =   RequestBody.create(MediaType.parse("application/json"), encryptedRequest.getBytes());
-                            }
-                            catch (Exception e){
-
-                                Log.d("okhttp-error",e.getMessage());
-                            }
-                        }
-
-                    }
-
-                    if(requestBody!=null){
-                        Request.Builder requestBuilder = request.newBuilder();
-
-                        //uncomment jika naik prod
-//                        request = requestBuilder
-//                                .post(requestBody)
-//                                .build();
-
-                        //end of comment
-
-
-                        return chain.proceed(request);
-                    }
-                    else{
-                        return chain.proceed(request);
-                    }
-
-
-
-
-
-//                    okhttp3.Response response = chain.proceed(request);
-//
-//
-//                    return response;
-                }
-            });
-
-            //END OF INTERCEPTOR ENKRIPSI
-        }
-
-
-
-        if (!BuildConfig.IS_PRODUCTION) {
-            clientBuilder.addInterceptor(loggingInterceptor);
+            clientBuilder.addInterceptor(headerAuthLogin);
         }
         else{
-            if(BuildConfig.IS_BD){
-                clientBuilder.addInterceptor(loggingInterceptor);
-            }
+            headerAuthLogin = new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request request = chain.request().newBuilder()
+//                            .addHeader("Authorization", "Bearer "+appPreferences.getToken())
+                            .build();
+                    return chain.proceed(request);
+
+                }
+            };
+            clientBuilder.addInterceptor(headerAuthLogin);
         }
+
+
+
+        if (BuildConfig.SHOW_LOG) {
+            clientBuilder.addInterceptor(loggingInterceptor);
+        }
+
 
 
         OkHttpClient httpClient = clientBuilder

@@ -104,7 +104,7 @@ public class RemaksSlikActivity extends AppCompatActivity implements MemosalesLi
                         if (response.body().getStatus().equalsIgnoreCase("00")){
                             Gson gson = new Gson();
                             Type type = new TypeToken<List<ModelRemaksSlik>>() {}.getType();
-                            if (statusKawin == 2){
+                            if (statusKawin == 2 &&response.body().getData().get("dtMemosalesPasangan")!=null){
                                 slikNasabahString = response.body().getData().get("dtMemosales").toString();
                                 slikPasanganString = response.body().getData().get("dtMemosalesPasangan").toString();
 

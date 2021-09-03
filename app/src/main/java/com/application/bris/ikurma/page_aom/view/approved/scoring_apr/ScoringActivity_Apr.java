@@ -182,7 +182,7 @@ public class ScoringActivity_Apr extends AppCompatActivity{
 
     private void loadData() {
         inquiryScoring req = new inquiryScoring(cif, idAplikasi);
-        Call<ParseResponse> call = apiClientAdapter.getApiInterface().inquiryScoring(req);
+        Call<ParseResponse> call = apiClientAdapter.getApiInterface().hitungScoring(req);
         call.enqueue(new Callback<ParseResponse>() {
             @Override
             public void onResponse(Call<ParseResponse> call, Response<ParseResponse> response) {

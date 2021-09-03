@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.application.bris.ikurma.BuildConfig;
 import com.application.bris.ikurma.R;
 import com.application.bris.ikurma.api.model.Error;
 import com.application.bris.ikurma.api.model.ParseResponse;
@@ -105,7 +106,12 @@ public class DataLengkapActivity extends AppCompatActivity implements StepperLay
                             Gson gson = new Gson();
                             dataPribadiString = response.body().getData().get("nasabah").toString();
                             dataLengkap = gson.fromJson(dataPribadiString, DataLengkap.class);
-                            autoInputForTesting();
+
+                            //isian data lengkap otomatis biar tester ga cape cape isi
+                            if(BuildConfig.IS_PRODUCTION==false){
+                                autoInputForTesting();
+                            }
+
                             stepperlayout.setAdapter(new DatalengkapStepAdapter(getSupportFragmentManager(), DataLengkapActivity.this, dataLengkap), startingStepPosition );
                             stepperlayout.setListener(DataLengkapActivity.this);
                         }
@@ -240,59 +246,57 @@ public class DataLengkapActivity extends AppCompatActivity implements StepperLay
     private void autoInputForTesting(){
 
 
-        //press hold back button to fill field automatically
-//        btn_back.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-                Toast.makeText(DataLengkapActivity.this, "Isi data otomatis untuk testing", Toast.LENGTH_SHORT).show();
-                dataLengkap.setNpwp("000000000000000");
-                dataLengkap.setNamaAlias("Nama Dummy");
-                dataLengkap.setNoHp("081212911111");
-                dataLengkap.setEmail("email@email.com");
-                dataLengkap.setAgama("ISL");
-                dataLengkap.setNoKtpPasangan("3208161912880005");
-                dataLengkap.setTglLahirPasangan("18031998");
-                dataLengkap.setTelpKeluarga("0812120999111");
-                dataLengkap.setJlhTanggungan(0);
-                dataLengkap.setAlamatDom("JL.PELAJAR TIMUR GG.MAWAR NO.1-A");
-                dataLengkap.setAlamatId("JL.PELAJAR TIMUR GG.MAWAR NO.1-A");
-                dataLengkap.setAlamatUsaha("JL.PELAJAR TIMUR GG.MAWAR NO.1-A");
-                dataLengkap.setBidangUsaha("1110");
-                dataLengkap.setExpId("01012100");
-                dataLengkap.setKecDom("Kelapa Dua");
-                dataLengkap.setKecId("Kelapa Dua");
-                dataLengkap.setKecUsaha("Kelapa Dua");
-                dataLengkap.setKelDom("Bencongan");
-                dataLengkap.setKelId("Bencongan");
-                dataLengkap.setKelUsaha("Bencongan");
-                dataLengkap.setKeluarga("Nama Keluarga");
-                dataLengkap.setKetGelar("S.Kom");
-                dataLengkap.setKodePosDom("15810");
-                dataLengkap.setKodePosId("15810");
-                dataLengkap.setKodePosUsaha("15810");
-                dataLengkap.setKotaDom("Kab. Tangerang");
-                dataLengkap.setKotaId("Kab. Tangerang");
-                dataLengkap.setKotaUsaha("Kab. Tangerang");
-                dataLengkap.setLamaMenetap(10);
-                dataLengkap.setNamaUsaha("Nama Usaha");
-                dataLengkap.setNoTelpUsaha("081212900111");
-                dataLengkap.setPendTerakhir("8");
-                dataLengkap.setProvDom("BANTEN");
-                dataLengkap.setProvId("BANTEN");
-                dataLengkap.setProvUsaha("BANTEN");
-                dataLengkap.setRtDom("01");
-                dataLengkap.setRtId("01");
-                dataLengkap.setRtUsaha("01");
-                dataLengkap.setRwDom("01");
-                dataLengkap.setRwId("01");
-                dataLengkap.setRwUsaha("01");
-                dataLengkap.setStatusTptTinggal("2");
-                dataLengkap.setTglMulaiUsaha("10062015");
-                dataLengkap.setTipePendapatan("2");
+        //kalau agama kosong, berarti belum pernah simpan sebelumnya, jadi ambil data otomatis saja
+        if(dataLengkap.getAgama()==null||dataLengkap.getAgama().isEmpty()){
 
+            Toast.makeText(DataLengkapActivity.this, "Data lengkap sudah diisi otomatis untuk testing", Toast.LENGTH_SHORT).show();
+            dataLengkap.setNpwp("000000000000000");
+            dataLengkap.setNamaAlias("Nama Dummy");
+            dataLengkap.setNoHp("081212911111");
+            dataLengkap.setEmail("email@email.com");
+            dataLengkap.setAgama("ISL");
+            dataLengkap.setNoKtpPasangan("3208161912880005");
+            dataLengkap.setNamaPasangan("Aleksander Barkeeper");
+            dataLengkap.setTglLahirPasangan("18031998");
+            dataLengkap.setTelpKeluarga("0812120999111");
+            dataLengkap.setJlhTanggungan(0);
+            dataLengkap.setAlamatDom("JL.PELAJAR TIMUR GG.MAWAR NO.1-A");
+            dataLengkap.setAlamatId("JL.PELAJAR TIMUR GG.MAWAR NO.1-A");
+            dataLengkap.setAlamatUsaha("JL.PELAJAR TIMUR GG.MAWAR NO.1-A");
+            dataLengkap.setBidangUsaha("1110");
+            dataLengkap.setExpId("01012100");
+            dataLengkap.setKecDom("Kelapa Dua");
+            dataLengkap.setKecId("Kelapa Dua");
+            dataLengkap.setKecUsaha("Kelapa Dua");
+            dataLengkap.setKelDom("Bencongan");
+            dataLengkap.setKelId("Bencongan");
+            dataLengkap.setKelUsaha("Bencongan");
+            dataLengkap.setKeluarga("Nama Keluarga");
+            dataLengkap.setKetGelar("S.Kom");
+            dataLengkap.setKodePosDom("15810");
+            dataLengkap.setKodePosId("15810");
+            dataLengkap.setKodePosUsaha("15810");
+            dataLengkap.setKotaDom("Kab. Tangerang");
+            dataLengkap.setKotaId("Kab. Tangerang");
+            dataLengkap.setKotaUsaha("Kab. Tangerang");
+            dataLengkap.setLamaMenetap(10);
+            dataLengkap.setNamaUsaha("Nama Usaha");
+            dataLengkap.setNoTelpUsaha("081212900111");
+            dataLengkap.setPendTerakhir("8");
+            dataLengkap.setProvDom("BANTEN");
+            dataLengkap.setProvId("BANTEN");
+            dataLengkap.setProvUsaha("BANTEN");
+            dataLengkap.setRtDom("01");
+            dataLengkap.setRtId("01");
+            dataLengkap.setRtUsaha("01");
+            dataLengkap.setRwDom("01");
+            dataLengkap.setRwId("01");
+            dataLengkap.setRwUsaha("01");
+            dataLengkap.setStatusTptTinggal("2");
+            dataLengkap.setTglMulaiUsaha("10062015");
+            dataLengkap.setTipePendapatan("2");
+        }
 
-//                return true;
-//            }
-//        });
-    }
+        }
+
 }

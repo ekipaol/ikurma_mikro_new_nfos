@@ -433,8 +433,8 @@ public class AgunanDepositoInputActivity extends AppCompatActivity implements Vi
             et_aro.setText("Ya");
             val_aro = "Ya";
 
-        et_nilainominal.setText("50000000");
-        et_nilailikuidasi.setText("50000000");
+        et_nilainominal.setText("100000000");
+        et_nilailikuidasi.setText("100000000");
 
 
     }

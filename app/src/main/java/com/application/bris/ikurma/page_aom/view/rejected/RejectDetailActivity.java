@@ -39,6 +39,7 @@ import com.application.bris.ikurma.page_aom.view.approved.rpc_apr.RpcActivity_Ap
 import com.application.bris.ikurma.page_aom.view.approved.scoring_apr.ScoringActivity_Apr;
 import com.application.bris.ikurma.page_aom.view.approved.sektorekonomi_apr.SektorEkonomiActivity_Apr;
 import com.application.bris.ikurma.page_aom.view.hotprospek.history.HistoryActivity;
+import com.application.bris.ikurma.page_aom.view.hotprospek.scoring.ScoringActivityNos;
 import com.application.bris.ikurma.util.AppUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -290,10 +291,10 @@ public class RejectDetailActivity extends AppCompatActivity implements MenuClick
             startActivity(it);
         }
         else if (menu.equalsIgnoreCase(getString(R.string.submenu_hotprospek_scoring))){
-            Intent it = new Intent(this, ScoringActivity_Apr.class);
+            Intent it = new Intent(this, ScoringActivityNos.class);
             it.putExtra("idAplikasi", data.getId_aplikasi());
             it.putExtra("cif", data.getFid_cif_las());
-            it.putExtra("kodeProduct", data.getKode_produk());
+            it.putExtra("isRiwayat", true);
             startActivity(it);
         }
         else if (menu.equalsIgnoreCase(getString(R.string.submenu_hotprospek_history))){

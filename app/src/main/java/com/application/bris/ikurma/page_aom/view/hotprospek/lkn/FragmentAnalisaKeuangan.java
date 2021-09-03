@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.application.bris.ikurma.BuildConfig;
 import com.application.bris.ikurma.R;
 import com.application.bris.ikurma.database.pojo.LknPojo;
 import com.application.bris.ikurma.page_aom.model.DataLkn;
 import com.application.bris.ikurma.util.AppUtil;
+import com.application.bris.ikurma.util.KeyValue;
 import com.application.bris.ikurma.util.NumberTextWatcherForThousand;
 import com.application.bris.ikurma.util.NumberTextWatcherCanNolForThousand;
 import com.stepstone.stepper.Step;
@@ -164,6 +167,12 @@ public class FragmentAnalisaKeuangan extends Fragment implements Step, TextWatch
         disableTextfield();
         onChangeText();
         setData();
+
+        if (data.getiDLKN2() == null) {
+            if(BuildConfig.IS_PRODUCTION==false){
+                autoInputForTesting();
+            }
+        }
 
         return view;
     }
@@ -581,6 +590,39 @@ public class FragmentAnalisaKeuangan extends Fragment implements Step, TextWatch
 
     @Override
     public void afterTextChanged(Editable s) {
+
+    }
+
+    private void autoInputForTesting(){
+
+
+        Toast.makeText(getContext(), "Isi data otomatis untuk testing", Toast.LENGTH_SHORT).show();
+
+        if (data.getiDLKN2() != null) {
+            et_pendapatanusaha.setText("9000000");
+            et_hargapokokpenjualanusaha.setText("100");
+            et_sewakontrakusaha.setText("");
+            et_gajipegawaiusaha.setText("0");
+            et_telponlistrikairusaha.setText("0");
+            et_transportasiusaha.setText("0");
+            et_pengeluaranlainnyausaha.setText("0");
+            et_pengeluaranusaha.setText("0");
+            et_keuntunganusaha.setText("0");
+            et_penghasilanlainnyausaha.setText("0");
+            et_totalpenghasilan.setText("0");
+            et_pajakretribusiusaha.setText("");
+            et_belanjarumahtanggart.setText("0");
+            et_sewakontrakrt.setText("0");
+            et_pendidikanrt.setText("0");
+            et_telponlistrikairrt.setText("0");
+            et_transportasirt.setText("0");
+            et_pengeluaranlainnyart.setText("0");
+            et_totalpengeluaranrt.setText("0");
+            et_sisapenghasilan.setText("");
+
+//            valBd_grossProfitMargin = new BigDecimal(data.getgPM());
+        }
+
 
     }
 }

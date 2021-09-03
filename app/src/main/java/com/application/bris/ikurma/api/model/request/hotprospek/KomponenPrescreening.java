@@ -3,7 +3,7 @@ package com.application.bris.ikurma.api.model.request.hotprospek;
 import com.google.gson.annotations.SerializedName;
 
 public class KomponenPrescreening {
-        @SerializedName("Key")
+        @SerializedName("idAplikasi")
         private String idAplikasi;
 
         @SerializedName("UID")

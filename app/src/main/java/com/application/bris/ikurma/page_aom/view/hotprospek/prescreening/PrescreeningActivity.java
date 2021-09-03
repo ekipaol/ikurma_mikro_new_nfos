@@ -24,6 +24,7 @@ import com.application.bris.ikurma.api.model.ParseResponseError;
 import com.application.bris.ikurma.api.model.request.hotprospek.KomponenPrescreening;
 import com.application.bris.ikurma.api.model.request.hotprospek.Prescreening;
 import com.application.bris.ikurma.api.model.request.hotprospek.PrescreeningSikp;
+import com.application.bris.ikurma.api.model.request.hotprospek.ReqDownloadSlik;
 import com.application.bris.ikurma.api.model.request.hotprospek.inquiryHotprospek;
 import com.application.bris.ikurma.api.model.request.hotprospek.inquiryRPC;
 import com.application.bris.ikurma.api.service.ApiClientAdapter;
@@ -41,6 +42,8 @@ import com.application.bris.ikurma.util.DownloadTask;
 import com.application.bris.ikurma.util.Stringinfo;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -198,25 +201,25 @@ public class PrescreeningActivity extends AppCompatActivity implements View.OnCl
                                 isKawin = true;
                             }
 
-                            if (data.getdHN() != null && (data.getdHN() || data.getdHN() == false)) {
+                            if (!data.getdHN().trim().isEmpty()) {
                                 flagCheckDhn = true;
-                                setCustomView(data.getdHN(), iv_completedhn, tv_dhn,data.getDhn_ket(),"DHN");
+                                setCustomView(Boolean.parseBoolean(data.getdHN()), iv_completedhn, tv_dhn,data.getDhn_ket(),"DHN");
                             }
 
-                            if (data.getdUKCAPIL() != null && (data.getdUKCAPIL() || data.getdUKCAPIL() == false)) {
+                            if (!data.getdUKCAPIL().trim().isEmpty() ) {
                                 flagCheckDukcapil = true;
-                                setCustomView(data.getdUKCAPIL(), iv_completedukcapil, tv_dukcapil,data.getDukcapil_ket(),"DUKCAPIL");
+                                setCustomView(Boolean.parseBoolean(data.getdUKCAPIL()), iv_completedukcapil, tv_dukcapil,data.getDukcapil_ket(),"DUKCAPIL");
                             }
 
-                            if (data.getsLIK() != null && (data.getsLIK() || data.getsLIK() == false)) {
+                            if (!data.getsLIK().trim().isEmpty() ) {
                                 btn_download.setVisibility(View.VISIBLE);
                                 btn_remaks.setVisibility(View.VISIBLE);
                                 flagCheckSlik = true;
-                                setCustomView(data.getsLIK(), iv_completeslik, tv_slik,data.getSlik_ket(),"SLIK");
+                                setCustomView(Boolean.parseBoolean(data.getsLIK()), iv_completeslik, tv_slik,data.getSlik_ket(),"SLIK");
                             }
 
                             //KALAU SLIK NULL, BERARTI MASI DALAM ANTRIAN
-                            else if(data.getsLIK()==null){
+                            else if(data.getsLIK().trim().isEmpty()){
                                 if(data.getStatusPermintaanSlik()!=null&&data.getStatusPermintaanSlik().equalsIgnoreCase("0")){
                                     tv_slik.setVisibility(View.VISIBLE);
                                     tv_slik.setText("DALAM ANTRIAN");
@@ -225,13 +228,13 @@ public class PrescreeningActivity extends AppCompatActivity implements View.OnCl
                                 }
                             }
 
-                            if (data.getsIKP() != null && (data.getsIKP() || data.getsIKP() == false)) {
+                            if (!data.getsIKP().trim().isEmpty()) {
                                 flagCheckSikp = true;
-                                setCustomView(data.getsIKP(), iv_completesikp, tv_sikp,data.getSikp_ket(),"SIKP");
+                                setCustomView(Boolean.parseBoolean(data.getsIKP()), iv_completesikp, tv_sikp,data.getSikp_ket(),"SIKP");
                             }
 
 
-                            if (data.getrESULT() != null) {
+                            if (!data.getrESULT().isEmpty()) {
                                 ll_info.setVisibility(View.GONE);
                                 ll_hasilprescreening.setVisibility(View.VISIBLE);
                                 String resultString = data.getrESULT();
@@ -655,7 +658,8 @@ public class PrescreeningActivity extends AppCompatActivity implements View.OnCl
         loading.setVisibility(View.VISIBLE);
         tv_loading.setVisibility(View.VISIBLE);
         tv_loading.setText("Downloading...");
-        Prescreening req = new Prescreening(idAplikasi);
+        ReqDownloadSlik req = new ReqDownloadSlik();
+        req.setIdAplikasi(String.valueOf(idAplikasi));
         Call<ParseResponse> call = null;
         if (id == 1){
             call = apiClientAdapter.getApiInterface().downloadSlik(req);
@@ -672,8 +676,17 @@ public class PrescreeningActivity extends AppCompatActivity implements View.OnCl
                     if (response.isSuccessful()){
                         if(response.body().getStatus().equalsIgnoreCase("00"))
                         {
-                            String fileName = response.body().getData().get("fileName").getAsString();
-                            String dataString = response.body().getData().get("file").getAsString();
+                            String fileName = "Hasil SLIK ID APLIKASI : "+String.valueOf(idAplikasi)+"-"+new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime())+".pdf";
+
+                            String dataString="";
+                            try {
+                                 dataString = response.body().getData().get("SLIKPDFDebitur").getAsString();
+                            }
+                            catch(Exception e){
+                                 dataString = response.body().getData().get("mup").getAsString();
+                                AppUtil.logSecure("dataStringnull",e.getMessage());
+                            }
+
                             byte[] data = Base64.decode(dataString, Base64.DEFAULT);
                             new DownloadTask(PrescreeningActivity.this, data, fileName, "hotprospek");
                         }

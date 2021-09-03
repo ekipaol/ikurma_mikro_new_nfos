@@ -23,7 +23,7 @@ public class Menu {
         menu.add(new ListViewMenu(R.drawable.ico_hotprospek, context.getString(R.string.menu_hotprospek), 0, 0, 0, 0));
         menu.add(new ListViewMenu(R.drawable.ico_approved, context.getString(R.string.menu_approved), 0, 0, 0, 0));;
         menu.add(new ListViewMenu(R.drawable.ico_rejected, context.getString(R.string.menu_rejected), 0,0,0, 0));
-        menu.add(new ListViewMenu(R.drawable.ic_generalusericon, "Monitoring", 0, 0, 0, 0));
+//        menu.add(new ListViewMenu(R.drawable.ic_generalusericon, "Monitoring", 0, 0, 0, 0));
         menu.add(new ListViewMenu(R.drawable.ic_logout_front, "Logout", 0,0,0, 0));
     }
 

@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.application.bris.ikurma.BuildConfig;
 import com.application.bris.ikurma.R;
 import com.application.bris.ikurma.database.pojo.LknPojo;
 import com.application.bris.ikurma.page_aom.model.DataLkn;
@@ -115,6 +117,12 @@ public class FragmentAnalisaKebutuhanModalKerja extends Fragment implements Step
         disableTextfield();
         onChangeText();
         setData();
+
+        if (data.getiDLKN2() == null) {
+            if(BuildConfig.IS_PRODUCTION==false){
+                autoInputForTesting();
+            }
+        }
 
         return view;
     }
@@ -392,4 +400,16 @@ public class FragmentAnalisaKebutuhanModalKerja extends Fragment implements Step
     @Override
     public void afterTextChanged(Editable s) {
     }
+
+    private void autoInputForTesting(){
+
+
+        Toast.makeText(getContext(), "Isi data otomatis untuk testing", Toast.LENGTH_SHORT).show();
+
+        et_persediaaninventori1.setText("1000000");
+        et_piutangdagang1.setText("0");
+        et_utangdagang1.setText("");
+
+
+        }
 }

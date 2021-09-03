@@ -218,6 +218,14 @@ public class FragmentLembarKunjungan extends Fragment implements Step, KeyValueL
         onSelectDialog();
         setData();
 
+        if (data.getiDLKN2() == null) {
+            if(BuildConfig.IS_PRODUCTION==false){
+                autoInputForTesting();
+            }
+        }
+
+
+
         return view;
     }
 
@@ -251,7 +259,14 @@ public class FragmentLembarKunjungan extends Fragment implements Step, KeyValueL
             et_lamausaha.setText(String.valueOf(parseLamaUsaha()));
             et_lamausaha.setSuffix(labelLamausaha);
             et_nomortelponusaha.setText(data.gettELPKANTOR());
-            et_alamatusaha.setText(data.getaLAMATTEMPATKERJA1());
+
+            if(data.getaLAMATTEMPATKERJA1()!=null&&!data.getaLAMATTEMPATKERJA1().isEmpty()){
+                et_alamatusaha.setText(data.getaLAMATTEMPATKERJA1());
+            }
+            else{
+                et_alamatusaha.setText(data.getaLAMATUSAHA());
+            }
+
 //
 //            if(BuildConfig.IS_PRODUCTION==false){
 //                et_bidangusaha.setText(KeyValue.getKeyUsahaorJob("1110"));
@@ -985,6 +1000,36 @@ public class FragmentLembarKunjungan extends Fragment implements Step, KeyValueL
             }
 
         });
+    }
+
+    private void autoInputForTesting(){
+
+
+        Toast.makeText(getContext(), "Isi data otomatis untuk testing", Toast.LENGTH_SHORT).show();
+
+            et_tanggalkunjungan.setText(AppUtil.parseTanggalGeneral("18032021", "ddMMyyyy", "dd-MM-yyyy"));
+            et_statuspermohonan.setText("Baru");
+            et_namaorangyangditemui.setText("nama orang ditemui");
+            et_hubungan.setText("Pejabat Setempat");
+            et_lokasiusaha.setText("Pasar Utama");
+            et_statustempatusaha.setText("Milik Keluarga");
+            et_jenistempatusaha.setText("Rumahan");
+            et_aspekpemasaran.setText("Agen");
+            et_jenisusaha.setText("Daging/Unggas/Ikan");
+            et_jaraklokasiusahakeums.setText("5");
+
+            bitmap_fotokunjungan1 = setLoadImage(iv_fotokunjungan1, 641);
+            bitmap_fotokunjungan2 = setLoadImage(iv_fotokunjungan2, 640);
+            bitmap_fotokunjungan3 = setLoadImage(iv_fotokunjungan3, 641);
+
+            val_fotokunjungan1 = 641;
+            val_fotokunjungan2 = 640;
+            val_fotokunjungan3 = 641;
+
+
+
+
+
     }
 
 }

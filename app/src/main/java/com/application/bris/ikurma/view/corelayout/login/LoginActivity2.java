@@ -28,6 +28,7 @@ import com.application.bris.ikurma.page_aom.dialog.CustomDialog;
 import com.application.bris.ikurma.page_aom.listener.ConfirmListener;
 import com.application.bris.ikurma.util.AppUtil;
 import com.application.bris.ikurma.util.Constants;
+import com.application.bris.ikurma.util.service_encrypt.MagicCryptHelper;
 import com.application.bris.ikurma.view.corelayout.CoreLayoutActivity;
 import com.application.bris.ikurma.view.corelayout.activation.WelcomeActivity;
 import com.bumptech.glide.Glide;
@@ -200,10 +201,17 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     private void doLogin() {
         loading.setVisibility(View.VISIBLE);
         login req = new login(et_username.getText().toString().trim(), "", getDeviceId(), "BRISI");
+        MagicCryptHelper encryptor =new MagicCryptHelper();
+        req.setPassword(encryptor.encrypt(et_password.getText().toString()));
+        AppUtil.logSecure("hasildekripsi",encryptor.decrypt("HAd4SfZQEiGGLuOvGDXs1A=="));
+
+//        if(BuildConfig.IS_PRODUCTION==false){
+//            req.setPassword((et_password.getText().toString()).toUpperCase());
+//        }
 
         //LOGIN BARU
-        apiClientAdapter = new ApiClientAdapter(this,99, "http://10.0.116.37:8054/");
-        Call<ParseResponse> call = apiClientAdapter.getApiInterface().login2(req);
+        apiClientAdapter = new ApiClientAdapter(this,0, "http://10.0.116.37:8054/");
+        Call<ParseResponse> call = apiClientAdapter.getApiInterface().login(req);
         call.enqueue(new Callback<ParseResponse>() {
             @Override
             public void onResponse(Call<ParseResponse> call, Response<ParseResponse> response) {
@@ -219,6 +227,9 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
                         }
                         else if (response.body().getStatus().equalsIgnoreCase("21")){
                             CustomDialog.DialogError(LoginActivity2.this, "Upss Sorry", "Akun anda telah digunakan di perangkat lain, Silahkan aktivasi ulang jika ingin menggunakan di perangkat ini.", LoginActivity2.this);
+                        }
+                        else if (response.body().getStatus().equalsIgnoreCase("01")){
+                            AppUtil.notiferror(LoginActivity2.this, findViewById(android.R.id.content), response.body().getMessage());
                         }
                         else {
                             AppUtil.notiferror(LoginActivity2.this, findViewById(android.R.id.content), response.body().getMessage());
@@ -336,6 +347,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         //appPreferences.setNik(AppUtil.encrypt(dataLoginBsi.getOfficer_code()));
         appPreferences.setKodeAo(AppUtil.encrypt(dataLoginBsi.getOfficer_code()));
         appPreferences.setKodeCabang(AppUtil.encrypt(String.valueOf(dataLoginBsi.getBranch().getId())));
+        appPreferences.setKodeKanwil(AppUtil.encrypt(String.valueOf(dataLoginBsi.getBranch().getId())));
         appPreferences.setToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlX25hbWUiOiJBT00iLCJzdWIiOiJhZGFtLnNhbmRsZXIiLCJyb2xlX2lkIjo4LCJicmFuY2hfaWQiOjI1MywiYnJhbmNoX25hbWUiOiJLQ1AgU1VOVEVSIiwiaWQiOjM4MjEsImV4cCI6MTYyMzIwNTY1Nn0.XgFvEHaKWGOshlzKixuaIAeod8fz8r5vWf48O425SCPlsgQRj90bn7LQv00aCl9dn6QPB8hgxqT9MwCfQhAf0g");
 
     }
@@ -357,6 +369,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         //appPreferences.setNik(AppUtil.encrypt(dataLoginBsi.getOfficer_code()));
         appPreferences.setKodeAo(AppUtil.encrypt(dataLoginBsi.getOfficer_code()));
         appPreferences.setKodeCabang(AppUtil.encrypt(String.valueOf(dataLoginBsi.getBranch().getId())));
+        appPreferences.setKodeKanwil(AppUtil.encrypt(String.valueOf(dataLoginBsi.getBranch().getId())));
         appPreferences.setToken(dataLoginBsi.getToken());
 
     }

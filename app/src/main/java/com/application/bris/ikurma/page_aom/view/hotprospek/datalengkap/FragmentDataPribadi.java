@@ -169,9 +169,11 @@ public class FragmentDataPribadi extends Fragment implements Step, KeyValueListe
 
     private Calendar calLahirPasangan;
     private Calendar calExpiredNik;
+    private Calendar calLahir;
 
     private DatePickerDialog dpTanggalLahirPasangan;
     private DatePickerDialog dpExpiredNik;
+    private DatePickerDialog dpTanggalLahir;
 
     public static SimpleDateFormat dateClient = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
     private DataLengkap dataLengkap;
@@ -235,6 +237,7 @@ public class FragmentDataPribadi extends Fragment implements Step, KeyValueListe
         if(BuildConfig.IS_PRODUCTION==false) {
 //            Toast.makeText(getContext(), "parameter testing aktif", Toast.LENGTH_SHORT).show();
 //            dataLengkap.setNamaNasabah("NAMA TESTING");
+//            dataLengkap.setNoKtp("3673011803940004");
 //            dataLengkap.setExpId("29042100");
 //            dataLengkap.setTptLahir("TESTING");
 //            dataLengkap.setTglLahir("18031994");
@@ -269,7 +272,7 @@ public class FragmentDataPribadi extends Fragment implements Step, KeyValueListe
 
         if (dataLengkap.getStatusNikah().equalsIgnoreCase("2")){
             ll_pasangan.setVisibility(View.VISIBLE);
-            et_namapasangan.setFocusable(false);
+//               et_namapasangan.setFocusable(false);
             et_tanggallahirpasangan.setFocusable(false);
             btn_cek_nik_pasangan.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -388,26 +391,47 @@ public class FragmentDataPribadi extends Fragment implements Step, KeyValueListe
         dpExpiredNik.show();
     }
 
-//    private void dpCalLahirPasangan(){
-//        calLahirPasangan = Calendar.getInstance();
-//        calLahirPasangan.add(Calendar.YEAR, -10);
-//        DatePickerDialog.OnDateSetListener ls_tanggalLahirPasangan = new DatePickerDialog.OnDateSetListener() {
-//
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                calLahirPasangan.set(Calendar.YEAR, year);
-//                calLahirPasangan.set(Calendar.MONTH, month);
-//                calLahirPasangan.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//                String calLahirPasanganString = dateClient.format(calLahirPasangan.getTime());
-//                et_tanggallahirpasangan.setText(calLahirPasanganString);
-//            }
-//        };
-//
-//        dpTanggalLahirPasangan = new DatePickerDialog(getContext(), R.style.AppTheme_TimePickerTheme, ls_tanggalLahirPasangan, calLahirPasangan.get(Calendar.YEAR),
-//                calLahirPasangan.get(Calendar.MONTH), calLahirPasangan.get(Calendar.DAY_OF_MONTH));
-//        dpTanggalLahirPasangan.getDatePicker().setMaxDate(calLahirPasangan.getTimeInMillis());
-//        dpTanggalLahirPasangan.show();
-//    }
+    private void dpCalLahir(){
+        calLahir = Calendar.getInstance();
+        calLahir.add(Calendar.YEAR, -10);
+        DatePickerDialog.OnDateSetListener ls_tanggalLahir = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calLahir.set(Calendar.YEAR, year);
+                calLahir.set(Calendar.MONTH, month);
+                calLahir.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String calLahirString = dateClient.format(calLahir.getTime());
+                et_tanggallahir.setText(calLahirString);
+            }
+        };
+
+        dpTanggalLahir = new DatePickerDialog(getContext(), R.style.AppTheme_TimePickerTheme, ls_tanggalLahir, calLahir.get(Calendar.YEAR),
+                calLahir.get(Calendar.MONTH), calLahir.get(Calendar.DAY_OF_MONTH));
+        dpTanggalLahir.getDatePicker().setMaxDate(calLahir.getTimeInMillis());
+        dpTanggalLahir.show();
+    }
+
+    private void dpCalLahirPasangan(){
+        calLahirPasangan = Calendar.getInstance();
+        calLahirPasangan.add(Calendar.YEAR, -10);
+        DatePickerDialog.OnDateSetListener ls_tanggalLahirPasangan = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calLahirPasangan.set(Calendar.YEAR, year);
+                calLahirPasangan.set(Calendar.MONTH, month);
+                calLahirPasangan.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String calLahirPasanganString = dateClient.format(calLahirPasangan.getTime());
+                et_tanggallahirpasangan.setText(calLahirPasanganString);
+            }
+        };
+
+        dpTanggalLahirPasangan = new DatePickerDialog(getContext(), R.style.AppTheme_TimePickerTheme, ls_tanggalLahirPasangan, calLahirPasangan.get(Calendar.YEAR),
+                calLahirPasangan.get(Calendar.MONTH), calLahirPasangan.get(Calendar.DAY_OF_MONTH));
+        dpTanggalLahirPasangan.getDatePicker().setMaxDate(calLahirPasangan.getTimeInMillis());
+        dpTanggalLahirPasangan.show();
+    }
 
     private void onSelectDialog(){
 
@@ -490,31 +514,73 @@ public class FragmentDataPribadi extends Fragment implements Step, KeyValueListe
         });
 
 
-//        if(BuildConfig.IS_PRODUCTION==false){
-//            Toast.makeText(getContext(), "NIK dibuka kuncinya untuk testing", Toast.LENGTH_SHORT).show();
-//        }
-//        else{
         et_nik.setInputType(InputType.TYPE_NULL);
         et_nik.setFocusable(false);
-//        }
 
-        et_nama.setInputType(InputType.TYPE_NULL);
-        et_nama.setFocusable(false);
+        et_nama.setFocusable(true);
+        tf_nama.setPanelBackgroundColor(getResources().getColor(R.color.colorBgEdittext));
 
-        et_tempatlahir.setInputType(InputType.TYPE_NULL);
-        et_tempatlahir.setFocusable(false);
+        et_tempatlahir.setFocusable(true);
+        tf_tempatlahir.setPanelBackgroundColor(getResources().getColor(R.color.colorBgEdittext));
 
-        et_tanggallahir.setInputType(InputType.TYPE_NULL);
+        tf_tanggallahir.setPanelBackgroundColor(getResources().getColor(R.color.colorBgEdittext));
+        //TANGGAL LAHIR
         et_tanggallahir.setFocusable(false);
+        et_tanggallahir.setInputType(InputType.TYPE_NULL);
+        et_tanggallahir.setOnFocusChangeListener(this);
+        tf_tanggallahir.setOnClickListener(this);
+        tf_tanggallahir.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dpCalLahir();
+            }
+        });
 
-        et_jeniskelamin.setInputType(InputType.TYPE_NULL);
+        tf_jeniskelamin.setPanelBackgroundColor(getResources().getColor(R.color.colorBgEdittext));
+        //STATUS NIKAH
         et_jeniskelamin.setFocusable(false);
+        et_jeniskelamin.setInputType(InputType.TYPE_NULL);
+        et_jeniskelamin.setOnFocusChangeListener(this);
+        tf_jeniskelamin.setOnClickListener(this);
+        tf_jeniskelamin.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openKeyValueDialog(tf_jeniskelamin.getLabelText().toString().trim());
+            }
+        });
 
-//        et_namaibukandung.setInputType(InputType.TYPE_NULL);
-//        et_namaibukandung.setFocusable(false);
+        et_namaibukandung.setFocusable(true);
+        tf_namaibukandung.setPanelBackgroundColor(getResources().getColor(R.color.colorBgEdittext));
 
-        et_statusnikah.setInputType(InputType.TYPE_NULL);
+        tf_namapasangan.setPanelBackgroundColor(getResources().getColor(R.color.colorBgEdittext));
+        //NAMA PASANGAN
+        et_namapasangan.setFocusable(true);
+
+        //STATUS NIKAH
+        btn_cek_nik_pasangan.setVisibility(View.GONE);
         et_statusnikah.setFocusable(false);
+        et_statusnikah.setInputType(InputType.TYPE_NULL);
+        et_statusnikah.setOnFocusChangeListener(this);
+        tf_statusnikah.setOnClickListener(this);
+        tf_statusnikah.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openKeyValueDialog(tf_statusnikah.getLabelText().toString().trim());
+            }
+        });
+
+        //TANGGAL LAHIR PASANGAN
+        et_tanggallahirpasangan.setFocusable(false);
+        et_tanggallahirpasangan.setInputType(InputType.TYPE_NULL);
+        et_tanggallahirpasangan.setOnFocusChangeListener(this);
+        tf_tanggallahirpasangan.setOnClickListener(this);
+        tf_tanggallahirpasangan.getEndIconImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dpCalLahirPasangan();
+            }
+        });
+
     }
 
     private void openKeyValueDialog(String title){
@@ -630,12 +696,13 @@ public class FragmentDataPribadi extends Fragment implements Step, KeyValueListe
             tf_pendidikanterakhir.setError("Format "+ tf_pendidikanterakhir.getLabelText()+" "+getString(R.string.title_validate_field), true);
             return new VerificationError("Format "+ tf_pendidikanterakhir.getLabelText()+" "+getString(R.string.title_validate_field));
         }
-        //cek kalau belum klik tombol, setelah merubah nik pasangan
-        else if(nikPasanganBerubah){
-            et_nikpasangan.requestFocus();
-            return new VerificationError("Harap klik tombol cek nik pasangan terlebih dahulu");
 
-        }
+        //cek kalau belum klik tombol, setelah merubah nik pasangan
+//        else if(nikPasanganBerubah){
+//            et_nikpasangan.requestFocus();
+//            return new VerificationError("Harap klik tombol cek nik pasangan terlebih dahulu");
+//
+//        }
         else {
             setDataOnListerner();
             return null;
@@ -769,11 +836,11 @@ public class FragmentDataPribadi extends Fragment implements Step, KeyValueListe
                 openKeyValueDialog(tf_agama.getLabelText().toString().trim());
                 break;
 
-//            //TANGGAL LAHIR PASANGAN
-//            case R.id.et_tanggallahirpasangan:
-//            case R.id.tf_tanggallahirpasangan:
-//                dpCalLahirPasangan();
-//                break;
+            //TANGGAL LAHIR PASANGAN
+            case R.id.et_tanggallahirpasangan:
+            case R.id.tf_tanggallahirpasangan:
+                dpCalLahirPasangan();
+                break;
 
             //TIPE PENDAPATAN
             case R.id.et_tipependapatan:
@@ -786,6 +853,27 @@ public class FragmentDataPribadi extends Fragment implements Step, KeyValueListe
             case R.id.tf_pendidikanterakhir:
                 openKeyValueDialog(tf_pendidikanterakhir.getLabelText().toString().trim());
                 break;
+
+
+            case R.id.et_jeniskelamin:
+            case R.id.tf_jeniskelamin:
+                openKeyValueDialog(tf_jeniskelamin.getLabelText().toString().trim());
+                break;
+
+            case R.id.et_statusnikah:
+            case R.id.tf_statusnikah:
+                openKeyValueDialog(tf_statusnikah.getLabelText().toString().trim());
+                break;
+
+            case R.id.et_tanggallahir:
+            case R.id.tf_tanggallahir:
+              dpCalLahir();
+                break;
+
+
+
+//
+
 
         }
     }
@@ -804,10 +892,10 @@ public class FragmentDataPribadi extends Fragment implements Step, KeyValueListe
                     openKeyValueDialog(tf_agama.getLabelText().toString().trim());
                     break;
 
-//                //TANGGAL LAHIR PASANGAN
-//                case R.id.et_tanggallahirpasangan:
-//                    dpCalLahirPasangan();
-//                    break;
+                //TANGGAL LAHIR PASANGAN
+                case R.id.et_tanggallahirpasangan:
+                    dpCalLahirPasangan();
+                    break;
 
                 //TIPE PENDAPATAN
                 case R.id.et_tipependapatan:

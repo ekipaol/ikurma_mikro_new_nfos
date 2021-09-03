@@ -11,13 +11,13 @@ public class DataPrescreening {
     @SerializedName("ID_PRESCREENING")
     private Integer iDPRESCREENING;
     @SerializedName("DUKCAPIL")
-    private Boolean dUKCAPIL;
+    private String dUKCAPIL;
     @SerializedName("DHN")
-    private Boolean dHN;
+    private String dHN;
     @SerializedName("SLIK")
-    private Boolean sLIK;
+    private String sLIK;
     @SerializedName("SIKP")
-    private Boolean sIKP;
+    private String sIKP;
     @SerializedName("RESULT")
     private String rESULT;
 
@@ -37,7 +37,7 @@ public class DataPrescreening {
     @SerializedName("STATUS_PERMINTAAN_SLIK")
     private String statusPermintaanSlik;
 
-    public DataPrescreening(Integer iDPRESCREENING, Boolean dUKCAPIL, Boolean dHN, Boolean sLIK, Boolean sIKP, String rESULT, Integer fIDAPLIKASI, String sTATUSKAWIN) {
+    public DataPrescreening(Integer iDPRESCREENING, String dUKCAPIL, String dHN, String sLIK, String sIKP, String rESULT, Integer fIDAPLIKASI, String sTATUSKAWIN) {
         this.iDPRESCREENING = iDPRESCREENING;
         this.dUKCAPIL = dUKCAPIL;
         this.dHN = dHN;
@@ -92,19 +92,19 @@ public class DataPrescreening {
         return iDPRESCREENING;
     }
 
-    public Boolean getdUKCAPIL() {
+    public String getdUKCAPIL() {
         return dUKCAPIL;
     }
 
-    public Boolean getdHN() {
+    public String getdHN() {
         return dHN;
     }
 
-    public Boolean getsLIK() {
+    public String getsLIK() {
         return sLIK;
     }
 
-    public Boolean getsIKP() {
+    public String getsIKP() {
         return sIKP;
     }
 

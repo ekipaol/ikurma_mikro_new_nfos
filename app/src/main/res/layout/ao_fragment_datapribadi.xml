@@ -473,6 +473,7 @@
                         app:secondaryColor="@color/colorPrimary"
                         app:primaryColor="@color/colorPrimary"
                         app:labelText="Tanggal Lahir Pasangan"
+                        app:endIcon="@drawable/ic_keyboard_arrow_down_black_24dp"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
                         android:layout_marginTop="10dp"
@@ -480,6 +481,7 @@
 
                         <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                             android:id="@+id/et_tanggallahirpasangan"
+                            android:text=" "
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
