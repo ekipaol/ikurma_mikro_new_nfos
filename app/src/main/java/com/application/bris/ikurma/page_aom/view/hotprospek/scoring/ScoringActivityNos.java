@@ -168,9 +168,10 @@ public class ScoringActivityNos extends AppCompatActivity  {
 
     public void setData()
     {
-      tv_hasil_scoring_nos.setText(data.getHasilScoring());
+      tv_hasil_scoring_nos.setText("Scoring Berhasil Dilakukan");
 
       if(data.getHasilScoring().toLowerCase().contains("tidak direkomendasikan")){
+          tv_hasil_scoring_nos.setText("Tidak Direkomendasikan");
           tv_hasil_scoring_nos.setBackgroundColor(getResources().getColor(R.color.red_btn_bg_color));
       }
       else{

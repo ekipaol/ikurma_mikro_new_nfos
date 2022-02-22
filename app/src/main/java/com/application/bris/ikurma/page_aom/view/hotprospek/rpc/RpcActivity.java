@@ -71,6 +71,8 @@ public class RpcActivity extends AppCompatActivity{
     TextView tv_rpcratio;
     @BindView(R.id.ll_info)
     LinearLayout ll_info;
+    @BindView(R.id.ll_hasil_rpc)
+    LinearLayout ll_hasil_rpc;
     @BindView(R.id.tv_info)
     TextView tv_info;
     @BindView(R.id.sv_rpc)
@@ -157,8 +159,8 @@ public class RpcActivity extends AppCompatActivity{
                                 ll_info.setVisibility(View.GONE);
                             }
                             else{
-                                ll_info.setVisibility(View.VISIBLE);
-                                tv_info.setText(Html.fromHtml(Stringinfo.header_info+msginfo));
+                                ll_info.setVisibility(View.GONE);
+                                tv_info.setText("-");
                             }
 
                             sv_rpc.post(new Runnable() {

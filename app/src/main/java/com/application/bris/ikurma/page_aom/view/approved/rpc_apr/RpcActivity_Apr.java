@@ -158,8 +158,8 @@ public class RpcActivity_Apr extends AppCompatActivity{
                                 ll_info.setVisibility(View.GONE);
                             }
                             else{
-                                ll_info.setVisibility(View.VISIBLE);
-                                tv_info.setText(Html.fromHtml(Stringinfo.header_info+msginfo));
+//                                ll_info.setVisibility(View.VISIBLE);
+                                tv_info.setText("-");
                             }
 
                             sv_rpc.post(new Runnable() {

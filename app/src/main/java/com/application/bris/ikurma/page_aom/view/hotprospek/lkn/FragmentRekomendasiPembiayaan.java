@@ -530,7 +530,8 @@ public class FragmentRekomendasiPembiayaan extends Fragment implements Step, Tex
                    try {
                        if (response.isSuccessful()) {
                            if (response.body().getStatus().equalsIgnoreCase("00")) {
-                               ll_hasilrekomendasipembiayaan.setVisibility(View.VISIBLE);
+//                               ll_hasilrekomendasipembiayaan.setVisibility(View.VISIBLE);
+                               AppUtil.notifsuccess(getContext(), getActivity().findViewById(android.R.id.content), "Cek Rekomendasi Berhasil");
                                Gson gson = new Gson();
                                dataCekRekomendasiString = response.body().getData().toString();
                                dataCekRekomendasi = gson.fromJson(dataCekRekomendasiString, CekRekomendasi.class);

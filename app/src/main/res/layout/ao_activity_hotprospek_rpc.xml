@@ -439,9 +439,11 @@
             android:fontFamily="@font/muli_b"
             android:padding="10dp"
             android:textColor="@color/colorBlackHeader"
+            android:visibility="gone"
             android:layout_marginTop="12dp"/>
 
         <LinearLayout
+            android:id="@+id/ll_hasil_rpc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shapebordergreen"
@@ -451,6 +453,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_marginBottom="12dp"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <LinearLayout

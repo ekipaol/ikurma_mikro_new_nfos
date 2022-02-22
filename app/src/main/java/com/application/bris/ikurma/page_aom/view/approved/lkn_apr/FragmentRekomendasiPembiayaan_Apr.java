@@ -254,7 +254,7 @@ public class FragmentRekomendasiPembiayaan_Apr extends Fragment implements Step{
                    try {
                        if (response.isSuccessful()) {
                            if (response.body().getStatus().equalsIgnoreCase("00")) {
-                               ll_hasilrekomendasipembiayaan.setVisibility(View.VISIBLE);
+//                               ll_hasilrekomendasipembiayaan.setVisibility(View.VISIBLE);
                                Gson gson = new Gson();
                                dataCekRekomendasiString = response.body().getData().toString();
                                dataCekRekomendasi = gson.fromJson(dataCekRekomendasiString, CekRekomendasi.class);

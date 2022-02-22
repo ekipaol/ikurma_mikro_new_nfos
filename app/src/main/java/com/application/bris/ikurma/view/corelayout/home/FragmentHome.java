@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.application.bris.ikurma.BuildConfig;
 import com.application.bris.ikurma.page_aom.listener.HotprospekHomeListener;
 import com.application.bris.ikurma.page_aom.listener.PipelineHomeListener;
 import com.application.bris.ikurma.page_aom.view.approved_multifaedahmikro.KmgApprovedActivity;
@@ -424,19 +425,19 @@ public class FragmentHome extends Fragment implements View.OnClickListener, Swip
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                     logout.dismissWithAnimation();
 //                    getActivity().finish();
-                    if(appPreferences.getNama().equalsIgnoreCase("developer")){
+//                    if(BuildConfig.IS_PRODUCTION==false){
                         Intent intent=new Intent(getContext(), LoginActivity2.class);
                         intent.putExtra("type","bdwelcome");
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-                    }
-                    else{
-                        Intent intent=new Intent(getContext(), LoginActivity.class);
-                        intent.putExtra("type","bdlogin");
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                        startActivity(intent);
-                    }
+//                    }
+//                    else{
+//                        Intent intent=new Intent(getContext(), LoginActivity.class);
+//                        intent.putExtra("type","bdlogin");
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//
+//                        startActivity(intent);
+//                    }
 
                 }
             });
